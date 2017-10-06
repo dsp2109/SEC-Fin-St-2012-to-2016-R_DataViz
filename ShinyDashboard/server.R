@@ -13,9 +13,8 @@ shinyServer(function(input, output){
    
     output$hist <- renderPlot({
       state_stat %>% 
-        select(input$selected) %>%
-        ggplot(aes(x=input$selected)) +
-        geom_histogram(stat="count") +
+        ggplot(aes_string(x=input$selected)) +
+        geom_histogram(bins=12) +
         ggtitle(input$selected)
         
       # show histogram using googleVis  
