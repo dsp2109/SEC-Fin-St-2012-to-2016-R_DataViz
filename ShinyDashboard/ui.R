@@ -1,6 +1,3 @@
-library(DT)
-library(shiny)
-library(shinydashboard)
 
 shinyUI(dashboardPage(
     dashboardHeader(title = "My Dashboard"),
@@ -28,7 +25,8 @@ shinyUI(dashboardPage(
                              infoBoxOutput("avgBox")),
                     fluidRow(box(htmlOutput("map"), height = 300, width = 12))),
             tabItem(tabName = "histogram",
-                    fluidRow(box(htmlOutput("hist"), height = 300, width = 12))), #end of 2nd tab
+                    plotOutput("hist")),
+                    # for gvis: fluidRow(box(htmlOutput("hist"), height = 300, width = 12))), #end of 2nd tab
             tabItem(tabName = "data",
                     fluidRow(box(DT::dataTableOutput("table"), width = 12)))
         )

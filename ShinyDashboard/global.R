@@ -1,3 +1,10 @@
+library(shiny)
+library(shinydashboard)
+library(DT)
+library(googleVis)
+library(ggplot2)
+library(dplyr)
+
 # convert matrix to dataframe
 state_stat <- data.frame(state.name = rownames(state.x77), state.x77)
 # remove row names

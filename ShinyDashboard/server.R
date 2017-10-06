@@ -1,6 +1,5 @@
-library(DT)
-library(shiny)
-library(googleVis)
+library(dplyr)
+
 
 shinyServer(function(input, output){
     # show map using googleVis
@@ -11,9 +10,18 @@ shinyServer(function(input, output){
                                   width="auto", height="auto"))
     })
     
-    # show histogram using googleVis
-    output$hist <- renderGvis({
-        gvisHistogram(state_stat[,input$selected, drop=FALSE])
+   
+    output$hist <- renderPlot({
+      state_stat %>% 
+        select(input$selected) %>%
+        ggplot(aes(x=input$selected)) +
+        geom_histogram(stat="count") +
+        ggtitle(input$selected)
+        
+      # show histogram using googleVis  
+      #renderGvis({
+        #gvisHistogram(state_stat[,input$selected, drop=FALSE])
+        
     })
     
     # show data using DataTable
