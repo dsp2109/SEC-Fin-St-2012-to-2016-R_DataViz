@@ -25,8 +25,9 @@ shinyUI(dashboardPage(
                     fluidRow(infoBoxOutput("maxBox"),
                              infoBoxOutput("minBox"),
                              infoBoxOutput("avgBox")),
-                    fluidRow(box(htmlOutput("map"), height = 300),
-                             box(htmlOutput("hist"), height = 300))),
+                    fluidRow(box(htmlOutput("map"), height = 300))),
+            tabItem(tabName = "histogram",
+                    fluidRow(box(htmlOutput("hist"), height = 300))), #end of 2nd tab
             tabItem(tabName = "data",
                     fluidRow(box(DT::dataTableOutput("table"), width = 12)))
         )
