@@ -10,7 +10,7 @@ shinyUI(dashboardPage(
                          image = "https://yt3.ggpht.com/-04uuTMHfDz4/AAAAAAAAAAI/AAAAAAAAAAA/Kjeupp-eNNg/s100-c-k-no-rj-c0xffffff/photo.jpg"),
         sidebarMenu(
             menuItem("Map", tabName = "map", icon = icon("map")),
-            menuItem("Histogram", tabName = "histogram", icon = icon("hist")),
+            menuItem("Histogram", tabName = "histogram", icon = icon("bar-chart")),
             menuItem("Data", tabName = "data", icon = icon("database"))
         ),
         selectizeInput("selected",
