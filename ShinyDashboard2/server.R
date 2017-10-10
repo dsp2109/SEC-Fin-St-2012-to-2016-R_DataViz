@@ -43,7 +43,8 @@ shinyServer(function(input, output){
       ggplot(scat_data()) + 
         geom_point(aes(x= input1, y = input2, color = AD_Desc)) + 
         ggtitle("Companies by two financial variables") +
-        ylab(input$fin2) + xlab(input$fin1)
+        ylab(input$fin2) + xlab(input$fin1) +
+        geom_smooth(aes(x= input1, y = input2),method=lm)
     })
 
 
