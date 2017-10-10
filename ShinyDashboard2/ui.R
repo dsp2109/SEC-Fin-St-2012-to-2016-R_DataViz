@@ -29,24 +29,27 @@ shinyUI(dashboardPage(
                           
 
                                   tabItem(tabName = "columns",
-                                          selectizeInput("selected",
-                                                         "Select Industry to Display",
-                                                         choice, selected = ''),
+                                          # selectizeInput("selected",
+                                          #                "Select Industry to Display",
+                                          #                choice, selected = ''),
                                           selectizeInput("fin_metr",
                                                          "Select Line Item to Display",
-                                                         fin_choice, selected = 'Assets')
+                                                         fin_choice, selected = 'Assets'),
+                                          plotOutput("col_gg", height = 800)
                                           
   
                                           ), #end columns
                                   
                                   tabItem(tabName = "scatter",
                         
-                                          selectizeInput("selected",
-                                                         "Select Item to Display",
-                                                         choice, selected = 'total'),
-                                          selectizeInput("fin_metr",
+                                          selectizeInput("fin1",
                                                          "Select Line Item to Display",
-                                                         fin_choice, selected = 'Assets')) #end scatter
+                                                         fin_choice, selected = 'Revenues'),
+                                          selectizeInput("fin2",
+                                                         "Select Line Item to Display",
+                                                         fin_choice, selected = 'Assets'),
+                                          plotOutput("scat_gg")
+                                          ) #end scatter
                           ) 
                           )
                         )
