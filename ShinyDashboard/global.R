@@ -8,6 +8,7 @@ library(dplyr)
 
 load("Data/shiny_sec_data.rda")
 # remove row names
-rownames(state_stat) <- NULL
+rownames(state_stats) <- NULL
 # create variable with colnames as choice
-choice <- colnames(state_stat)[-1]
+choice <- colnames(state_stats)[4:6]
+fin_choice <- c(NULL, unique(state_stats$fin_line))
