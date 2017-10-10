@@ -1,10 +1,10 @@
 
 
 shinyUI(dashboardPage(
-    dashboardHeader(title = "My Dashboard"),
+    dashboardHeader(title = "SEC Financial St Data"),
     dashboardSidebar(
         
-        sidebarUserPanel("NYC DSA",
+        sidebarUserPanel("SEC Data by State",
                          image = "https://yt3.ggpht.com/-04uuTMHfDz4/AAAAAAAAAAI/AAAAAAAAAAA/Kjeupp-eNNg/s100-c-k-no-rj-c0xffffff/photo.jpg"),
         sidebarMenu(
             menuItem("Map", tabName = "map", icon = icon("map")),
@@ -13,10 +13,10 @@ shinyUI(dashboardPage(
         ),
         selectizeInput("selected",
                        "Select Item to Display",
-                       choice),
+                       choice, selected = 'total'),
         selectizeInput("fin_metr",
                        "Select Line Item to Display",
-                       fin_choice, selected = 'Asset')
+                       fin_choice, selected = 'Assets')
     ),
     dashboardBody(
         tags$head(
@@ -35,4 +35,5 @@ shinyUI(dashboardPage(
                     fluidRow(box(DT::dataTableOutput("table"), width = 12)))
         )
     )
-))
+)
+)
