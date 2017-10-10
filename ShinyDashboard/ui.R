@@ -14,7 +14,7 @@ shinyUI(dashboardPage(
                    choice, selected = 'total'),
     selectizeInput("fin_metr",
                    "Select Line Item to Display",
-                   fin_choice, selected = 'Assets'g)
+                   fin_choice, selected = 'Assets')
   ),
   dashboardBody(
     tags$head(
