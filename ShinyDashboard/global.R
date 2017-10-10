@@ -1,12 +1,12 @@
 library(shiny)
 library(shinydashboard)
+library(shinythemes)
 library(DT)
 library(googleVis)
 library(ggplot2)
 library(dplyr)
 
-# convert matrix to dataframe
-state_stat <- data.frame(state.name = rownames(state.x77), state.x77)
+load("Data/shiny_sec_data.rda")
 # remove row names
 rownames(state_stat) <- NULL
 # create variable with colnames as choice
