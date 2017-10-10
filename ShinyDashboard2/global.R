@@ -7,6 +7,8 @@ library(ggplot2)
 library(dplyr)
 
 load("Data/shiny_sec_data.rda")
+load("Data/ggfilings.rda")
+
 # remove row names
 rownames(state_stats) <- NULL
 # create variable with colnames as choice
