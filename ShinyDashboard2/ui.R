@@ -1,6 +1,7 @@
 
 
 shinyUI(dashboardPage(
+                      skin = "black",  
                       dashboardHeader(title = "SEC Financial St Data"),
                       
                       dashboardSidebar(
@@ -10,7 +11,7 @@ shinyUI(dashboardPage(
                         sidebarMenu(
                           menuItem("Filings by year", tabName = "filings", icon = icon("bar-chart")),
                           menuItem("Financial St. Data", tabName = "columns", icon = icon("bar-chart")),
-                          menuItem("Scatter by Co", tabName = "scatter", icon = icon("database"))
+                          menuItem("Scatter by Co", tabName = "scatter", icon = icon("line-chart"))
                         )
                       ),
                       

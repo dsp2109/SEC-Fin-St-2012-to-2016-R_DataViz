@@ -20,7 +20,7 @@ shinyServer(function(input, output){
   
     output$gg1 <- renderPlot({
       ggplot(gg_dt) + 
-        geom_col(aes(x = year, y = cnt, fill = form_group)) + ggtitle("Filings by year")
+        geom_col(aes(x = year, y = count, fill = form_group)) + ggtitle("Filings by year")
     })
     
     output$gg2 <- renderPlot({

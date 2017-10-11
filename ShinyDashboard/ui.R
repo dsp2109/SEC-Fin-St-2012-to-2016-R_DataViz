@@ -1,4 +1,6 @@
-shinyUI(dashboardPage(
+shinyUI(
+  dashboardPage(
+  skin = "black",
   dashboardHeader(title = "SEC Financial St Data"),
   dashboardSidebar(
     
@@ -25,7 +27,7 @@ shinyUI(dashboardPage(
               fluidRow(infoBoxOutput("maxBox"),
                        infoBoxOutput("minBox"),
                        infoBoxOutput("avgBox")),
-              fluidRow(box(htmlOutput("map"), height = 300, width = 12))),
+              fluidRow(box(htmlOutput("map"), height = 500, width = 12))),
       tabItem(tabName = "histogram",
               plotOutput("hist")),
       # for gvis: fluidRow(box(htmlOutput("hist"), height = 300, width = 12))), #end of 2nd tab
