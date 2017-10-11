@@ -42,10 +42,11 @@ shinyUI(dashboardPage(
                                   selectizeInput("in_yr",
                                                  "Select Year to Display",
                                                  c(2012, 2013,2014,2015, 2016), selected = 2016),
-                                  selectizeInput("fin_metr",
+                                  selectizeInput("fin_metr_hist",
                                                  "Select Line Item to Display",
                                                  fin_st_choice, selected = 'Assets'),
-                                  plotlyOutput("hist")),                          
+                                  plotlyOutput("hist_log"),  
+                                  plotlyOutput("hist_dens")),                          
 
                                   tabItem(tabName = "columns",
                                           # selectizeInput("selected",
@@ -64,20 +65,31 @@ shinyUI(dashboardPage(
                                           h3("UNDER CONSTRUCTION"),
                                           
                         
-                                          selectizeInput("fin1",
+                                          selectizeInput("fin_rat1",
                                                          "Select Line Item to Display",
                                                          fin_choice, selected = 'Revenues'),
-                                          selectizeInput("in_yr",
+                                          selectizeInput("in_ratyr",
                                                          "Select Year to Display",
                                                          c(2012, 2013,2014,2015, 2016), selected = 2016),
-                                          selectizeInput("fin2",
+                                          selectizeInput("fin_rat2",
                                                          "Select Line Item to Display",
                                                          fin_choice, selected = 'Assets'),
-                                          selectizeInput("in_yr2",
+                                          selectizeInput("in_ratyr2",
                                                          "Select Year to Display",
                                                          c(2012, 2013,2014,2015, 2016), selected = 2016),
                                           plotlyOutput("ratio_hist", height = 400)
-                                          ), #end scatter co
+                                          ), #end ratio co
+                          
+                          tabItem(tabName = "scatter",
+                                  
+                                  selectizeInput("fin1",
+                                                 "Select Line Item to Display",
+                                                 fin_choice, selected = 'Revenues'),
+                                  selectizeInput("fin2",
+                                                 "Select Line Item to Display",
+                                                 fin_choice, selected = 'Assets'),
+                                  plotlyOutput("scat_gg", height = 600)
+                          ), #end scatter ind
                           
                           tabItem(tabName = "scatter_ind",
                                   

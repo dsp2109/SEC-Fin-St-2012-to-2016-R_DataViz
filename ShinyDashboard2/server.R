@@ -52,33 +52,43 @@ shinyServer(function(input, output){
     
     hist_data = reactive({
       nums_shiny %>% 
-        filter(consol_name == input$fin_metr, year == input$in_yr, value != 0) %>% 
+        filter(consol_name == input$fin_metr_hist, year == input$in_yr, value != 0) %>% 
         group_by(name) %>% 
-        summarise(total = sum(value, na.rm = T))
+        summarise(total = sum(value, na.rm = T)) %>% filter(total != 0)
     })    
 
-        output$hist <- renderPlotly({
+        output$hist_dens <- renderPlotly({
       hist_data() %>% 
         ggplot(aes(x= total)) +
-        geom_histogram() +
-        ggtitle(input$fin_metr)
+        geom_density() +
+        ggtitle(input$fin_metr_hist)
       
     })
+        
+        output$hist_log <- renderPlotly({
+          hist_data() %>% 
+            ggplot(aes(x= log10(total))) +
+            geom_histogram() +
+            ggtitle(input$fin_metr_hist)
+          
+        })
     
+        
         ratio_data_cos = reactive({
           nums_shiny %>% 
-            filter(consol_name %in% c(input$fin_1, input$fin2),  value != 0) %>% 
+            filter(consol_name %in% c(input$fin_rat1, input$fin_rat2),  value != 0) %>% 
             group_by(name) %>% 
-            summarise(ratio = sum(value[consol_name == input$fin1 & 
-                                          year == input$in_yr], na.rm = T)/sum(value[consol_name == input$fin2 & 
-                                                                                       year == input$in_yr2], na.rm = T))
+            summarise(tot1 = sum(value[consol_name == input$fin_rat1 & 
+                                          year == input$in_ratyr], na.rm = T), 
+                      tot2 = sum(value[consol_name == input$fin_rat2 & year == input$in_ratyr2], na.rm = T),
+                      ratio = tot1/tot2)
         })    
         
         output$ratio_hist <- renderPlotly({
           ratio_data_cos() %>% 
             ggplot(aes(x= ratio)) +
-            geom_histogram() +
-            ggtitle(paste0("Ratio of ",input$fin1, " to ", input$fin2))
+            geom_histogram(binwidth = 0.25) +
+            ggtitle(paste0("Ratio of ",input$fin_rat1, " to ", input$fin_rat2))
           
         })
         
