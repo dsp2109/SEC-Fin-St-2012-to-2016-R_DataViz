@@ -76,18 +76,28 @@ shinyServer(function(input, output){
         
         ratio_data_cos = reactive({
           nums_shiny %>% 
-            filter(consol_name %in% c(input$fin_rat1, input$fin_rat2),  value != 0) %>% 
-            group_by(name) %>% 
+            filter(consol_name %in% c(input$fin_rat1, input$fin_rat2),  abs(value) > 10000) %>% 
+            group_by(name, AD_Desc) %>% 
             summarise(tot1 = sum(value[consol_name == input$fin_rat1 & 
                                           year == input$in_ratyr], na.rm = T), 
                       tot2 = sum(value[consol_name == input$fin_rat2 & year == input$in_ratyr2], na.rm = T),
-                      ratio = tot1/tot2)
+                      ratio = tot1/tot2) %>% filter(ratio!= 0)
         })    
         
         output$ratio_hist <- renderPlotly({
           ratio_data_cos() %>% 
             ggplot(aes(x= ratio)) +
-            geom_histogram(binwidth = 0.25) +
+            geom_freqpoly(aes(color = AD_Desc), center = 1, binwidth = 0.2) +
+            xlim(0,2) +
+            ggtitle(paste0("Ratio of ",input$fin_rat1, " to ", input$fin_rat2))
+          
+        })
+        
+        output$ratio_by_ind <- renderPlotly({
+          ratio_data_cos() %>% 
+            group_by(AD_Desc) %>% summarise(ratio_ind = sum(tot1,na.rm = T)/sum(tot2, na.rm = T)) %>% 
+            ggplot(aes(x= AD_Desc, y = ratio_ind)) +
+            geom_col(aes(fill = ratio_ind)) + theme(axis.text.x = element_text(angle = 60)) + 
             ggtitle(paste0("Ratio of ",input$fin_rat1, " to ", input$fin_rat2))
           
         })

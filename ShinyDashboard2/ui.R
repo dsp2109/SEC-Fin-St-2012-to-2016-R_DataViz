@@ -73,12 +73,15 @@ shinyUI(dashboardPage(
                                                          c(2012, 2013,2014,2015, 2016), selected = 2016),
                                           selectizeInput("fin_rat2",
                                                          "Select Line Item to Display",
-                                                         fin_choice, selected = 'Assets'),
+                                                         fin_choice, selected = 'Revenues'),
                                           selectizeInput("in_ratyr2",
                                                          "Select Year to Display",
-                                                         c(2012, 2013,2014,2015, 2016), selected = 2016),
-                                          plotlyOutput("ratio_hist", height = 400)
+                                                         c(2012, 2013,2014,2015, 2016), selected = 2012),
+                                          plotlyOutput("ratio_hist", height = 300),
+                                          br(),
+                                          plotlyOutput("ratio_by_ind", height = 500)
                                           ), #end ratio co
+                          
                           
                           tabItem(tabName = "scatter",
                                   
