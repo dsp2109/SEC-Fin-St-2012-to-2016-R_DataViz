@@ -5,16 +5,16 @@ shinyServer(function(input, output){
 
     col_data = reactive({
       nums_shiny %>% 
-        filter(fin_line == input$fin_metr & year == 2016) %>% 
+        filter(consol_name == input$fin_metr & year == 2016) %>% 
         group_by(AD_Desc,year) %>% 
         summarise(total = sum(value, na.rm = T))
     })
     
     scat_data = reactive({
-      nums_shiny %>% filter(fin_line == input$fin1 | fin_line == input$fin2 & year == 2016) %>% 
-        group_by(Name) %>% 
-        summarise(input1 = sum(value[fin_line == input$fin1], na.rm = T),input2 = sum(value[fin_line == input$fin2], na.rm = T)) %>% 
-        inner_join(nums_shiny %>% distinct(Name, .keep_all = T) %>% select(Name, AD_Desc), by = 'Name')
+      nums_shiny %>% filter(consol_name == input$fin1 | consol_name == input$fin2 & year == 2016) %>% 
+        group_by(name) %>% 
+        summarise(input1 = sum(value[consol_name == input$fin1], na.rm = T),input2 = sum(value[consol_name == input$fin2], na.rm = T)) %>% 
+        inner_join(nums_shiny %>% distinct(name, .keep_all = T) %>% select(name, AD_Desc), by = 'name')
     })
     
   

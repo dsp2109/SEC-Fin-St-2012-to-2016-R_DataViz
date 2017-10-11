@@ -5,7 +5,7 @@ shinyServer(function(input, output){
 
   state_stat <- reactive({
     state_stats %>%
-      filter(fin_line == input$fin_metr) %>% 
+      filter(consol_name == input$fin_metr) %>% 
       group_by(state_imp) %>% 
       summarise(co_count = sum(co_count, na.rm = T), total = sum(total, na.rm = T), inst = sum(inst, na.rm = T))
   })

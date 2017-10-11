@@ -11,5 +11,5 @@ load("Data/ggfilings.rda")
 rm(state_stats)
 
 choice = unique(nums_shiny$AD_Desc)
-fin_choice = unique(nums_shiny$fin_line)
+fin_choice = unique(nums_shiny$consol_name)
 
