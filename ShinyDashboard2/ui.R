@@ -11,13 +11,17 @@ shinyUI(dashboardPage(
                         sidebarMenu(
                           h5("Public Filing Overview"),
                           menuItem("Filings by year", tabName = "filings", icon = icon("bar-chart")),
+
+                          menuItem("Histogram", tabName = "histogram", icon = icon("bar-chart")),
+                          h5("Financials through time"),
                           menuItem("Financial St. Data", tabName = "columns", icon = icon("bar-chart")),
-                          h5("Financial Ratios"),
-                          menuItem("Scatter by Co", tabName = "scatter", icon = icon("line-chart")),
-                          menuItem("Scatter by Indstry", tabName = "scatter_ind", icon = icon("line-chart")),
+    
+                          h5("Financial Ratio Analysis"),
+                          menuItem("Scatter by Co", tabName = "scatter", icon = icon("braille")),
+                          menuItem("Scatter by Industry", tabName = "scatter_ind", icon = icon("braille")),
+                          menuItem("Financial Ratios", tabName = "ratios", icon = icon("calculator")),
                           h5("By State"),
                           menuItem("Map", tabName = "map", icon = icon("map")),
-                          menuItem("Histogram", tabName = "histogram", icon = icon("bar-chart")),
                           menuItem("Data", tabName = "data", icon = icon("database"))
                         )
                       ),
@@ -34,7 +38,14 @@ shinyUI(dashboardPage(
                                   plotOutput("gg3")
                                   ), #end filings
                                   
-                          
+                          tabItem(tabName = "histogram",
+                                  selectizeInput("in_yr",
+                                                 "Select Year to Display",
+                                                 c(2012, 2013,2014,2015, 2016), selected = 2016),
+                                  selectizeInput("fin_metr",
+                                                 "Select Line Item to Display",
+                                                 fin_st_choice, selected = 'Assets'),
+                                  plotlyOutput("hist")),                          
 
                                   tabItem(tabName = "columns",
                                           # selectizeInput("selected",
@@ -43,20 +54,29 @@ shinyUI(dashboardPage(
                                           selectizeInput("fin_metr",
                                                          "Select Line Item to Display",
                                                          fin_choice, selected = 'Assets'),
-                                          plotOutput("col_gg", height = 800)
+                                          plotlyOutput("dens_gg", height = 330),
+                                          plotlyOutput("col_gg", height = 500)
                                           
   
                                           ), #end columns
                                   
-                                  tabItem(tabName = "scatter",
+                                  tabItem(tabName = "ratios",
+                                          h3("UNDER CONSTRUCTION"),
+                                          
                         
                                           selectizeInput("fin1",
                                                          "Select Line Item to Display",
                                                          fin_choice, selected = 'Revenues'),
+                                          selectizeInput("in_yr",
+                                                         "Select Year to Display",
+                                                         c(2012, 2013,2014,2015, 2016), selected = 2016),
                                           selectizeInput("fin2",
                                                          "Select Line Item to Display",
                                                          fin_choice, selected = 'Assets'),
-                                          plotlyOutput("scat_gg")
+                                          selectizeInput("in_yr2",
+                                                         "Select Year to Display",
+                                                         c(2012, 2013,2014,2015, 2016), selected = 2016),
+                                          plotlyOutput("ratio_hist", height = 400)
                                           ), #end scatter co
                           
                           tabItem(tabName = "scatter_ind",
@@ -67,7 +87,7 @@ shinyUI(dashboardPage(
                                   selectizeInput("fin2",
                                                  "Select Line Item to Display",
                                                  fin_choice, selected = 'Assets'),
-                                  plotlyOutput("scat_ind")
+                                  plotlyOutput("scat_ind", height = 600)
                           ), #end scatter ind
                           
                           
@@ -86,14 +106,7 @@ shinyUI(dashboardPage(
                                     fluidRow(box(htmlOutput("map"), height = 500, width = 12))
                                     ),
                             
-                            tabItem(tabName = "histogram",
-                                    selectizeInput("selected",
-                                                   "Select Item to Display",
-                                                   choice, selected = 'total'),
-                                    selectizeInput("fin_metr",
-                                                   "Select Line Item to Display",
-                                                   fin_st_choice, selected = 'Assets'),
-                                    plotOutput("hist")),
+
                             # for gvis: fluidRow(box(htmlOutput("hist"), height = 300, width = 12))), #end of 2nd tab
                             tabItem(tabName = "data",
                                     fluidRow(box(DT::dataTableOutput("table"), width = 12)))

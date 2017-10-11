@@ -7,17 +7,20 @@ shinyServer(function(input, output){
   
       col_data = reactive({
       nums_shiny %>% 
-        filter(consol_name == input$fin_metr & year == 2016) %>% 
+        filter(consol_name == input$fin_metr) %>% 
         group_by(AD_Desc,year) %>% 
         summarise(total = sum(value, na.rm = T))
     })
     
+
+      
+      
     scat_data = reactive({
       nums_shiny %>% filter(consol_name == input$fin1 | consol_name == input$fin2 & year == 2016) %>% 
         group_by(name) %>% 
         summarise(input1 = sum(value[consol_name == input$fin1], na.rm = T),
                   input2 = sum(value[consol_name == input$fin2], na.rm = T)) %>% 
-        filter(input1>0, input2>0) %>% 
+        filter(input1!=0, input2!=0) %>% 
         inner_join(nums_shiny %>% distinct(name, .keep_all = T) %>% select(name, AD_Desc), by = 'name')
     })
     
@@ -47,7 +50,45 @@ shinyServer(function(input, output){
         ggtitle("Companies no longer filing")
     })
     
-    output$col_gg <- renderPlot({
+    hist_data = reactive({
+      nums_shiny %>% 
+        filter(consol_name == input$fin_metr, year == input$in_yr, value != 0) %>% 
+        group_by(name) %>% 
+        summarise(total = sum(value, na.rm = T))
+    })    
+
+        output$hist <- renderPlotly({
+      hist_data() %>% 
+        ggplot(aes(x= total)) +
+        geom_histogram() +
+        ggtitle(input$fin_metr)
+      
+    })
+    
+        ratio_data_cos = reactive({
+          nums_shiny %>% 
+            filter(consol_name %in% c(input$fin_1, input$fin2),  value != 0) %>% 
+            group_by(name) %>% 
+            summarise(ratio = sum(value[consol_name == input$fin1 & 
+                                          year == input$in_yr], na.rm = T)/sum(value[consol_name == input$fin2 & 
+                                                                                       year == input$in_yr2], na.rm = T))
+        })    
+        
+        output$ratio_hist <- renderPlotly({
+          ratio_data_cos() %>% 
+            ggplot(aes(x= ratio)) +
+            geom_histogram() +
+            ggtitle(paste0("Ratio of ",input$fin1, " to ", input$fin2))
+          
+        })
+        
+               output$dens_gg <- renderPlotly({
+      ggplot(col_data()) + 
+        geom_line(aes(x= year, y = total, color = AD_Desc)) + 
+        ggtitle("Total financial value by industry")
+    })
+    
+        output$col_gg <- renderPlotly({
       ggplot(col_data()) + 
         geom_col(aes(x= year, y = total, fill = AD_Desc)) + 
         ggtitle("Total financial value by industry")
@@ -85,18 +126,7 @@ shinyServer(function(input, output){
                                 width="auto", height="auto"))
     })
     
-    
-    output$hist <- renderPlot({
-      state_stat() %>% 
-        ggplot(aes_string(x=input$selected)) +
-        geom_histogram() +
-        ggtitle(input$selected)
-      
-      # show histogram using googleVis  
-      #renderGvis({
-      #gvisHistogram(state_stat[,input$selected, drop=FALSE])
-      
-    })
+
     
     # show data using DataTable
     output$table <- DT::renderDataTable({
