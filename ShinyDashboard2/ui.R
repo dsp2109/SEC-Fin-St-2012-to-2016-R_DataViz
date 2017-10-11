@@ -9,11 +9,13 @@ shinyUI(dashboardPage(
                         sidebarUserPanel("Fin St by: Yr, Indstr",
                                          image = "https://yt3.ggpht.com/-04uuTMHfDz4/AAAAAAAAAAI/AAAAAAAAAAA/Kjeupp-eNNg/s100-c-k-no-rj-c0xffffff/photo.jpg"),
                         sidebarMenu(
-                          h4("Public Financial Statements"),
+                          h5("Public Filing Overview"),
                           menuItem("Filings by year", tabName = "filings", icon = icon("bar-chart")),
                           menuItem("Financial St. Data", tabName = "columns", icon = icon("bar-chart")),
+                          h5("Financial Ratios"),
                           menuItem("Scatter by Co", tabName = "scatter", icon = icon("line-chart")),
-                          h4("By State"),
+                          menuItem("Scatter by Indstry", tabName = "scatter_ind", icon = icon("line-chart")),
+                          h5("By State"),
                           menuItem("Map", tabName = "map", icon = icon("map")),
                           menuItem("Histogram", tabName = "histogram", icon = icon("bar-chart")),
                           menuItem("Data", tabName = "data", icon = icon("database"))
@@ -54,8 +56,21 @@ shinyUI(dashboardPage(
                                           selectizeInput("fin2",
                                                          "Select Line Item to Display",
                                                          fin_choice, selected = 'Assets'),
-                                          plotOutput("scat_gg")
-                                          ), #end scatter
+                                          plotlyOutput("scat_gg")
+                                          ), #end scatter co
+                          
+                          tabItem(tabName = "scatter_ind",
+                                  
+                                  selectizeInput("fin1",
+                                                 "Select Line Item to Display",
+                                                 fin_choice, selected = 'Revenues'),
+                                  selectizeInput("fin2",
+                                                 "Select Line Item to Display",
+                                                 fin_choice, selected = 'Assets'),
+                                  plotlyOutput("scat_ind")
+                          ), #end scatter ind
+                          
+                          
                           
                           ############ by state tabs
                             tabItem(tabName = "map",

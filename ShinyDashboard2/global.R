@@ -5,6 +5,7 @@ library(DT)
 library(googleVis)
 library(ggplot2)
 library(dplyr)
+library(plotly)
 
 load("Data/shiny_sec_data.rda")
 load("Data/ggfilings.rda")

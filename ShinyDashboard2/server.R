@@ -15,10 +15,22 @@ shinyServer(function(input, output){
     scat_data = reactive({
       nums_shiny %>% filter(consol_name == input$fin1 | consol_name == input$fin2 & year == 2016) %>% 
         group_by(name) %>% 
-        summarise(input1 = sum(value[consol_name == input$fin1], na.rm = T),input2 = sum(value[consol_name == input$fin2], na.rm = T)) %>% 
+        summarise(input1 = sum(value[consol_name == input$fin1], na.rm = T),
+                  input2 = sum(value[consol_name == input$fin2], na.rm = T)) %>% 
+        filter(input1>0, input2>0) %>% 
         inner_join(nums_shiny %>% distinct(name, .keep_all = T) %>% select(name, AD_Desc), by = 'name')
     })
     
+    scat_data_ind = reactive({
+      nums_shiny %>% filter(consol_name == input$fin1 | consol_name == input$fin2 & year == 2016) %>% 
+        group_by(name) %>% 
+        summarise(input1 = sum(value[consol_name == input$fin1], na.rm = T),
+                  input2 = sum(value[consol_name == input$fin2], na.rm = T)) %>% 
+        filter(input1>0, input2>0) %>% 
+        inner_join(nums_shiny %>% distinct(name, .keep_all = T) %>% select(name, AD_Desc), by = 'name') %>% 
+        group_by(AD_Desc) %>% 
+        summarise(x_ax_dols = sum(input1), y_ax_dols = sum(input2))
+    })
   
     output$gg1 <- renderPlot({
       ggplot(gg_dt) + 
@@ -41,12 +53,20 @@ shinyServer(function(input, output){
         ggtitle("Total financial value by industry")
     })
     
-    output$scat_gg <- renderPlot({
+    output$scat_gg <- renderPlotly({
       ggplot(scat_data()) + 
-        geom_point(aes(x= input1, y = input2, color = AD_Desc)) + 
+        geom_point(aes(x= input1, y = input2, color = AD_Desc, text = paste('Name: ', name))) + 
         ggtitle("Companies by two financial variables") +
         ylab(input$fin2) + xlab(input$fin1) +
         geom_smooth(aes(x= input1, y = input2),method=lm)
+    })
+    
+    output$scat_ind <- renderPlotly({
+        ggplot(scat_data_ind()) + 
+        geom_point(aes(x= x_ax_dols, y = y_ax_dols, color = AD_Desc)) + 
+        ggtitle("Companies by two financial variables") +
+        ylab(input$fin2) + xlab(input$fin1)
+      
     })
 
 ######by state
