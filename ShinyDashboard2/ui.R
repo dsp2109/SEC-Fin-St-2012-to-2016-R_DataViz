@@ -55,14 +55,15 @@ shinyUI(dashboardPage(
                                           selectizeInput("fin_metr",
                                                          "Select Line Item to Display",
                                                          fin_choice, selected = 'Assets'),
-                                          plotlyOutput("dens_gg", height = 330),
-                                          plotlyOutput("col_gg", height = 500)
+                                          plotlyOutput("col_gg", height = 500),
+                                          br(),
+                                          plotlyOutput("dens_gg", height = 330)
+                                          
                                           
   
                                           ), #end columns
                                   
                                   tabItem(tabName = "ratios",
-                                          h3("UNDER CONSTRUCTION"),
                                           
                         
                                           selectizeInput("fin_rat1",
@@ -79,7 +80,7 @@ shinyUI(dashboardPage(
                                                          c(2012, 2013,2014,2015, 2016), selected = 2012),
                                           plotlyOutput("ratio_hist", height = 300),
                                           br(),
-                                          plotlyOutput("ratio_by_ind", height = 500)
+                                          plotlyOutput("ratio_by_ind", height = 700)
                                           ), #end ratio co
                           
                           
@@ -91,7 +92,8 @@ shinyUI(dashboardPage(
                                   selectizeInput("fin2",
                                                  "Select Line Item to Display",
                                                  fin_choice, selected = 'Assets'),
-                                  plotlyOutput("scat_gg", height = 600)
+                                  plotlyOutput("scat_gg", height = 600),
+                                  plotlyOutput("scat_gg_log", height = 600)
                           ), #end scatter ind
                           
                           tabItem(tabName = "scatter_ind",

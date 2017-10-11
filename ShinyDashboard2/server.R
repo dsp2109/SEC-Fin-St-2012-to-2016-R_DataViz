@@ -97,7 +97,7 @@ shinyServer(function(input, output){
           ratio_data_cos() %>% 
             group_by(AD_Desc) %>% summarise(ratio_ind = sum(tot1,na.rm = T)/sum(tot2, na.rm = T)) %>% 
             ggplot(aes(x= AD_Desc, y = ratio_ind)) +
-            geom_col(aes(fill = ratio_ind)) + theme(axis.text.x = element_text(angle = 60)) + 
+            geom_col(aes(fill = ratio_ind)) + theme(axis.text.x = element_text(angle = 25)) + 
             ggtitle(paste0("Ratio of ",input$fin_rat1, " to ", input$fin_rat2))
           
         })
@@ -118,8 +118,15 @@ shinyServer(function(input, output){
       ggplot(scat_data()) + 
         geom_point(aes(x= input1, y = input2, color = AD_Desc, text = paste('Name: ', name))) + 
         ggtitle("Companies by two financial variables") +
+        ylab(input$fin2) + xlab(input$fin1) 
+    })
+    
+    output$scat_gg_log <- renderPlotly({
+      ggplot(scat_data()) + 
+        geom_point(aes(x= input1, y = input2, color = AD_Desc, text = paste('Name: ', name))) + 
+        ggtitle("(LOG10) Companies by two financial variables") +
         ylab(input$fin2) + xlab(input$fin1) +
-        geom_smooth(aes(x= input1, y = input2),method=lm)
+        scale_x_log10() + scale_y_log10()
     })
     
     output$scat_ind <- renderPlotly({
@@ -127,8 +134,9 @@ shinyServer(function(input, output){
         geom_point(aes(x= x_ax_dols, y = y_ax_dols, color = AD_Desc)) + 
         ggtitle("Companies by two financial variables") +
         ylab(input$fin2) + xlab(input$fin1)
-      
     })
+    
+    
 
 ######by state
     state_stat <- reactive({
